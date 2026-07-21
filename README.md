@@ -1,5 +1,7 @@
 ## Latent-MoE
 
+![Diagram](diagram.png)
+
 Implementation of <a href="https://arxiv.org/abs/2601.18089">LatentMoE</a> — *Toward Optimal Accuracy per FLOP and Parameter in Mixture of Experts* (Elango et al., NVIDIA 2026) — in Pytorch. A single-file, dependency-light layer you can drop in place of a standard MoE FFN.
 
 The idea is simple. A standard MoE routes and computes its experts in the model hidden dimension `d`. LatentMoE first projects each token down into a smaller *latent* dimension `l = d / alpha` with a shared down-projection, runs all routed experts inside that latent space, then projects back up to `d`. Because dispatch traffic and expert weights now live in `l` rather than `d`, both all-to-all communication volume and per-expert weight-loading memory drop by a factor of `alpha`.
