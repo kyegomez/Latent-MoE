@@ -1,0 +1,84 @@
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[project]
+name = "latent-moe"
+version = "0.0.1"
+description = "Latent-MoE - Toward Optimal Accuracy per FLOP and Parameter in Mixture of Experts"
+license = "Apache-2.0"
+authors = [{ name = "Kye Gomez", email = "kye@swarms.world" }]
+readme = "README.md"
+requires-python = ">=3.10,<4.0"
+keywords = [
+    "artificial intelligence",
+    "deep learning",
+    "pytorch",
+    "mixture of experts",
+    "moe",
+    "latent moe",
+    "transformers",
+    "attention mechanism",
+    "sparse models",
+    "machine learning",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "torch>=2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/kyegomez/Latent-MoE"
+Repository = "https://github.com/kyegomez/Latent-MoE"
+Documentation = "https://github.com/kyegomez/Latent-MoE"
+
+
+[tool.poetry]
+packages = [{ include = "latent_moe" }]
+
+
+[tool.poetry.group.lint.dependencies]
+black = ">=23.1,<27.0"
+ruff = ">=0.5.1,<0.15.9"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = ">=8.1.1,<10.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "*"
+ruff = "*"
+pytest = "*"
+
+
+[tool.ruff]
+line-length = 70
+
+[tool.black]
+target-version = ["py310"]
+line-length = 70
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | docs
+)/
+'''
