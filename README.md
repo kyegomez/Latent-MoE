@@ -90,6 +90,25 @@ out = model.generate(idx[:, :8], max_new_tokens=16, top_k=20)
 print(f"generated     : {tuple(out.shape)}")
 ```
 
+## Training
+
+A complete training script is included at [`examples/training/train.py`](examples/training). It trains the `MoETransformer` on a streamed subset of Wikipedia (HuggingFace `datasets` + GPT-2 tokenizer), uses `torch.optim.Muon` for the 2D hidden weights and `AdamW` for the embeddings, logs with loguru, and checkpoints every `--save-every` steps.
+
+```bash
+pip install -e .
+pip install -r examples/training/requirements-train.txt
+
+# train the default ~30M-param model for 2000 steps
+python examples/training/train.py --steps 2000 --num-articles 2000 --save-every 100
+
+# resume from the latest checkpoint
+python examples/training/train.py --resume
+```
+
+Key flags: `--steps`, `--batch-size`, `--block-size`, `--num-articles`, `--muon-lr`, `--adam-lr`, `--save-every`, `--ckpt-dir`, `--device`. Every model-shape and training field is exposed as a CLI flag — see [`examples/training/README.md`](examples/training/README.md) for the full list.
+
+`wikimedia/wikipedia` downloads whole parquet shards even when streaming; for a run that starts in seconds, point at a lighter corpus with `--dataset wikitext --dataset-config wikitext-103-raw-v1`.
+
 ## Citations
 
 If you use this implementation in your research, please cite both the original paper and this repository:
