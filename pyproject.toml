@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "latent-moe"
-version = "0.0.2"
+version = "0.0.3"
 description = "Latent-MoE - Toward Optimal Accuracy per FLOP and Parameter in Mixture of Experts"
 license = "Apache-2.0"
 authors = [{ name = "Kye Gomez", email = "kye@swarms.world" }]

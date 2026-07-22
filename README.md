@@ -2,14 +2,14 @@
 
 ![Diagram](diagram.png)
 
-Implementation of <a href="https://arxiv.org/abs/2601.18089">LatentMoE</a> — *Toward Optimal Accuracy per FLOP and Parameter in Mixture of Experts* (Elango et al., NVIDIA 2026) — in Pytorch. A single-file, dependency-light layer you can drop in place of a standard MoE FFN.
+Implementation of <a href="https://arxiv.org/abs/2601.18089">LatentMoE</a>: *Toward Optimal Accuracy per FLOP and Parameter in Mixture of Experts* (Elango et al., NVIDIA 2026) in Pytorch. This is a single-file, dependency-light layer you can drop in place of a standard MoE FFN.
 
 The idea is simple. A standard MoE routes and computes its experts in the model hidden dimension `d`. LatentMoE first projects each token down into a smaller *latent* dimension `l = d / alpha` with a shared down-projection, runs all routed experts inside that latent space, then projects back up to `d`. Because dispatch traffic and expert weights now live in `l` rather than `d`, both all-to-all communication volume and per-expert weight-loading memory drop by a factor of `alpha`.
 
 Those savings are reinvested by scaling the number of experts `N' = alpha * N`, exponentially expanding the space of expert combinations. Two flavors:
 
-- `l-MoE_eff` — keep top-k `K` fixed → match baseline accuracy at lower inference cost.
-- `l-MoE_acc` — scale top-k `K' = alpha * K` → match baseline cost while improving accuracy (recommended, Pareto-optimal).
+- `l-MoE_eff`: keep top-k `K` fixed → match baseline accuracy at lower inference cost.
+- `l-MoE_acc`: scale top-k `K' = alpha * K` → match baseline cost while improving accuracy (recommended, Pareto-optimal).
 
 The router and shared experts continue to operate in the original dimension `d`, since they are not the memory/communication bottleneck.
 
@@ -92,6 +92,8 @@ print(f"generated     : {tuple(out.shape)}")
 
 ## Citations
 
+If you use this implementation in your research, please cite both the original paper and this repository:
+
 ```bibtex
 @article{elango2026latentmoe,
     title   = {LatentMoE: Toward Optimal Accuracy per FLOP and Parameter in Mixture of Experts},
@@ -100,3 +102,17 @@ print(f"generated     : {tuple(out.shape)}")
     year    = {2026},
 }
 ```
+
+```bibtex
+@software{gomez2026openlatentmoe,
+    title   = {Open Latent MoE: A single-file PyTorch implementation of LatentMoE},
+    author  = {Gomez, Kye},
+    year    = {2026},
+    url     = {https://github.com/kyegomez/Latent-MoE},
+}
+```
+
+
+# License
+
+This project is licensed under the Apache License Version 2.0
