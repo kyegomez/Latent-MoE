@@ -1,0 +1,4 @@
+torch
+datasets
+transformers
+loguru
