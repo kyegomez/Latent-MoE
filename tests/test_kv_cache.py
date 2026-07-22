@@ -74,7 +74,9 @@ def test_incremental_decode_matches_full():
 def test_cache_reset():
     model = _model()
     cache = model.init_kv_cache()
-    model(torch.randint(0, model.config.vocab_size, (1, 5)), cache=cache)
+    model(
+        torch.randint(0, model.config.vocab_size, (1, 5)), cache=cache
+    )
     assert cache[0].seq_len == 5
     for layer in cache:
         layer.reset()
